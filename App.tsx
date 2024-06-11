@@ -12,14 +12,20 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Home} from './src/screens/home';
 import {Login} from './src/screens/login';
+import api from './src/util/api';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [screen, setScreen] = useState('Login');
   const theme = useTheme();
+
+  const onPressOspite = () => {
+    setScreen('Menu');
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.background}}>
@@ -34,7 +40,7 @@ export default function App() {
                   backgroundColor: theme.colors.primary,
                 },
                 headerTintColor: theme.colors.onPrimary,
-                headerTitleAlign: 'center'
+                headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
                 <Login navigation={navigation} route={'login'} />
@@ -48,7 +54,7 @@ export default function App() {
                   backgroundColor: theme.colors.primary,
                 },
                 headerTintColor: theme.colors.onPrimary,
-                headerTitleAlign: 'center'
+                headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
                 <Home navigation={navigation} route={'home'} />
@@ -92,8 +98,7 @@ export default function App() {
             <Button
               mode="outlined"
               onPress={() => {
-                setScreen('Menu');
-                console.log('teste');
+                onPressOspite();
               }}>
               Accedere come ospite
             </Button>

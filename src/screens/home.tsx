@@ -1,5 +1,4 @@
 import {
-  Button,
   Dimensions,
   FlatList,
   Image,
@@ -7,74 +6,85 @@ import {
   View,
 } from 'react-native';
 import {DefaultScreenProps} from '../routes/defaultProps';
-import {Card, Text, useTheme} from 'react-native-paper';
-import {useEffect, useState} from 'react';
+import {Card, Text} from 'react-native-paper';
+import {useEffect, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import api from '../util/api';
 
 export const Home = ({navigation, route}: DefaultScreenProps) => {
-  const [listEpisodes, setListEpisodes] = useState<any[]>([]);
-  const [imageShow, setImageShow] = useState('');
-  const [descriptionShow, setDescriptionShow] = useState('');
-  const [showProps, setShowProps] = useState<any>({});
+  const [listMovies, setListMovies] = useState<any[]>([]);
+  const [screenMode, setScreenMode] = useState('List');
+  const idGuest = useRef(null);
 
   useEffect(() => {
-    // getPropsShow();
-    getListEpisodes();
+    getAIdGuest();
   }, []);
 
-  const getPropsShow = async () => {
-    const response = await fetch(`https://api.themoviedb.org/3/discover/movie`);
-    const responseJson = await response.json();
-    setShowProps(responseJson);
-    setImageShow(responseJson.image.original);
-    setDescriptionShow(
-      responseJson.summary
-        .replace('<p>', '')
-        .replace('</p>', '')
-        .replace('<b>', '')
-        .replace('</b>', ''),
-    );
+  const getAIdGuest = async () => {
+    await api
+      .get('authentication/guest_session/new')
+      .then(response => {
+        idGuest.current = response.data.guest_session_id;
+        getLisMovies();
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
   };
 
-  const getListEpisodes = async () => {
-    const response = await fetch(`https://api.themoviedb.org/3/discover/movie`);
-    const responseJson = await response.json();
-    console.log(responseJson);
-    //setListEpisodes(responseJson);
+  const getLisMovies = async () => {
+    await api
+      .get('discover/movie')
+      .then(response => {
+        setListMovies(response.data.results);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
   };
 
   const renderItem = ({item}: any) => (
-    <View style={{flex: 1}}>
-      {item.number === 1 ? (
-        <Text
-          style={{
-            paddingTop: 20,
-            paddingStart: 15,
-            fontSize: 25,
-          }}>{`Season ${item.season}`}</Text>
-      ) : null}
-      <Card>
+    <View
+      style={{
+        maxWidth: Dimensions.get('screen').width * 0.94,
+        alignItems: 'stretch',
+        alignSelf: 'center',
+      }}>
+      <Card mode="outlined">
         <TouchableHighlight
           key={item.key}
           onPress={() => {
-            navigation.navigate('Detail', {id: item.id});
+            setScreenMode('Details');
           }}>
           <View
             style={{
               flexDirection: 'row',
-              maxWidth: Dimensions.get('screen').width * 0.6,
+              maxWidth: Dimensions.get('screen').width * 0.95,
+              paddingStart: 20,
             }}>
             <Image
-              source={{uri: item.image.original || ' '}}
+              source={{
+                uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+              }}
               style={{
                 width: Dimensions.get('screen').width / 3,
                 height: Dimensions.get('window').height / 3,
-                resizeMode: 'stretch',
+                resizeMode: 'center',
               }}
             />
-            <View style={{paddingStart: 5}}>
+            <View
+              style={{
+                padding: 30,
+                alignContent: 'center',
+                alignSelf: 'flex-start',
+                maxWidth: Dimensions.get('screen').width * 0.6,
+              }}>
               <Text
-                style={{fontSize: 20}}>{`${item.number} - ${item.name}`}</Text>
+                style={{
+                  fontSize: 18,
+                  fontWeight: '700',
+                }}>{`${item.original_title}`}</Text>
+              <Text style={{fontSize: 12}}>{`${item.overview}`}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -82,34 +92,26 @@ export const Home = ({navigation, route}: DefaultScreenProps) => {
     </View>
   );
 
-  return (
+  return screenMode == 'List' ? (
     <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          alignItems: 'center',
-          backgroundColor: 'black',
-          paddingBottom: 10,
-        }}>
-        {/* <Image
-          source={{uri: imageShow || ' '}}
-          style={{
-            width:  Dimensions.get('screen').width  / 2,
-            height:  Dimensions.get('screen').width  / 2,
-            resizeMode: 'stretch',
-          }}
-        /> */}
-      </View>
-      <View style={{paddingStart: 15, paddingEnd: 10, paddingBottom: 10}}>
-        {/* <Text style={{fontSize: 40, color: 'black'}}>{showProps.name}</Text>
-        <Text style={{fontSize: 15, alignItems: 'stretch'}}>
-          {descriptionShow}
-        </Text> */}
-      </View>
-      {/* <FlatList
-        data={listEpisodes}
+      <Text
+        style={{paddingStart: 20, paddingTop: 10, paddingBottom: 10}}
+        variant="headlineLarge">
+        Movies
+      </Text>
+      <FlatList
+        data={listMovies}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-      /> */}
+      />
+    </SafeAreaView>
+  ) : (
+    <SafeAreaView style={{flex: 1}}>
+      <Text
+        style={{paddingStart: 20, paddingTop: 10, paddingBottom: 10}}
+        variant="headlineLarge">
+        Detail
+      </Text>
     </SafeAreaView>
   );
 };
