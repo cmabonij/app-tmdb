@@ -1,1 +1,1 @@
-export type RouteKey = "home" | "login";
+export type RouteKey = "home" | "movieDetails" | "watchlist" | "favorites";

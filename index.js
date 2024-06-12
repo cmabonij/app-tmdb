@@ -6,15 +6,15 @@ import App from './App';
 
 const theme = {
   colors: {
-    primary: 'rgb(20, 96, 165)',
+    primary: 'rgb(13, 37, 63)',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(211, 228, 255)',
     onPrimaryContainer: 'rgb(0, 28, 56)',
-    secondary: 'rgb(0, 103, 131)',
+    secondary: 'rgb(1, 180, 228)',
     onSecondary: 'rgb(255, 255, 255)',
     secondaryContainer: 'rgb(189, 233, 255)',
     onSecondaryContainer: 'rgb(0, 31, 42)',
-    tertiary: 'rgb(0, 109, 60)',
+    tertiary: 'rgb(144, 206, 161)',
     onTertiary: 'rgb(255, 255, 255)',
     tertiaryContainer: 'rgb(152, 247, 182)',
     onTertiaryContainer: 'rgb(0, 33, 14)',

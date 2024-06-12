@@ -10,8 +10,8 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {Home} from './src/screens/home';
-import {Login} from './src/screens/login';
+import {HomeScreen} from './src/screens/homeScreen';
+import {MovieDetailsScreen} from './src/screens/movieDetailsScreen';
 import api from './src/util/api';
 
 const Stack = createNativeStackNavigator();
@@ -31,11 +31,11 @@ export default function App() {
     <View style={{flex: 1, backgroundColor: theme.colors.background}}>
       {screen != 'Login' ? (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="home">
             <Stack.Screen
-              name="Login"
+              name="movieDetails"
               options={{
-                title: 'Login',
+                title: 'Movie Details',
                 headerStyle: {
                   backgroundColor: theme.colors.primary,
                 },
@@ -43,11 +43,11 @@ export default function App() {
                 headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
-                <Login navigation={navigation} route={'login'} />
+                <MovieDetailsScreen navigation={navigation} route={'home'} />
               )}
             </Stack.Screen>
             <Stack.Screen
-              name="Home"
+              name="home"
               options={{
                 title: 'Home',
                 headerStyle: {
@@ -57,7 +57,35 @@ export default function App() {
                 headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
-                <Home navigation={navigation} route={'home'} />
+                <HomeScreen navigation={navigation} route={'home'} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="favorite"
+              options={{
+                title: 'Favorites',
+                headerStyle: {
+                  backgroundColor: theme.colors.primary,
+                },
+                headerTintColor: theme.colors.onPrimary,
+                headerTitleAlign: 'center',
+              }}>
+              {({navigation}) => (
+                <HomeScreen navigation={navigation} route={'home'} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="watchlist"
+              options={{
+                title: 'Watchlist',
+                headerStyle: {
+                  backgroundColor: theme.colors.primary,
+                },
+                headerTintColor: theme.colors.onPrimary,
+                headerTitleAlign: 'center',
+              }}>
+              {({navigation}) => (
+                <HomeScreen navigation={navigation} route={'home'} />
               )}
             </Stack.Screen>
           </Stack.Navigator>

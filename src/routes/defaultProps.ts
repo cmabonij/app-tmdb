@@ -19,10 +19,6 @@ type NavigationProp<RouteName extends keyof ParamListBase, NavigatorID extends s
     route: RouteName;
 };
 
-type testeScreenParam<T> = {
-    [key: string]: T;
-};
-
 type ScreenNavigationProps = NavigationProp<RouteKey>;
 
 export interface DefaultScreenProps extends ScreenNavigationProps { }
