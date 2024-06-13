@@ -7,15 +7,18 @@ import {
 } from 'react-native';
 import {DefaultScreenProps} from '../routes/defaultProps';
 import {ActivityIndicator, Card, Icon, Text} from 'react-native-paper';
+import {useDispatch} from 'react-redux';
 import {useEffect, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import api from '../util/api';
 import {FormatDate} from '../util/utils';
+import {updateSession} from '../../store/actions/userActions';
 
 export const HomeScreen = ({navigation}: DefaultScreenProps) => {
   const [listMovies, setListMovies] = useState<any[]>([]);
   const idGuest = useRef(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getAIdGuest();
@@ -25,7 +28,7 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
     await api
       .get('authentication/guest_session/new')
       .then(response => {
-        idGuest.current = response.data.guest_session_id;
+        dispatch(updateSession(response.data.guest_session_id));
         getLisMovies();
       })
       .catch(error => {
