@@ -13,6 +13,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from './src/screens/homeScreen';
 import {MovieDetailsScreen} from './src/screens/movieDetailsScreen';
 import api from './src/util/api';
+import { FavoriteScreen } from './src/screens/favoriteScreen';
+import { WatchlistScreen } from './src/screens/watchlistScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -71,7 +73,7 @@ export default function App() {
                 headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
-                <HomeScreen navigation={navigation} route={'home'} />
+                <FavoriteScreen navigation={navigation} route={'home'} />
               )}
             </Stack.Screen>
             <Stack.Screen
@@ -85,7 +87,7 @@ export default function App() {
                 headerTitleAlign: 'center',
               }}>
               {({navigation}) => (
-                <HomeScreen navigation={navigation} route={'home'} />
+                <WatchlistScreen navigation={navigation} route={'home'} />
               )}
             </Stack.Screen>
           </Stack.Navigator>

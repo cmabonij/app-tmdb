@@ -1,7 +1,6 @@
-import {useDispatch} from 'react-redux';
 import {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ActivityIndicator, Button, Card, Icon, Text} from 'react-native-paper';
+import {ActivityIndicator, Card, Icon, Text} from 'react-native-paper';
 import {
   Dimensions,
   FlatList,
@@ -11,35 +10,20 @@ import {
 } from 'react-native';
 
 import api from '../util/api';
-import {FormatDate} from '../util/utils';
+import {FormatDate, accountId} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
-import {updateSession} from '../../store/actions/userActions';
-import {theme} from '../..';
 
-export const HomeScreen = ({navigation}: DefaultScreenProps) => {
-  const [listMovies, setListMovies] = useState<any[]>([]);
+export const FavoriteScreen = ({navigation}: DefaultScreenProps) => {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  const [listMovies, setListMovies] = useState<any[]>([]);
 
   useEffect(() => {
-    getAIdGuest();
     getLisMovies();
   }, []);
 
-  const getAIdGuest = async () => {
-    await api
-      .get('authentication/guest_session/new')
-      .then(response => {
-        dispatch(updateSession(response.data.guest_session_id));
-      })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
-      });
-  };
-
   const getLisMovies = async () => {
     await api
-      .get('discover/movie')
+      .get(`account/${accountId}/favorite/movies`)
       .then(response => {
         setListMovies(response.data.results);
         setLoading(false);
@@ -115,36 +99,10 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
 
   return loading === false ? (
     <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          top: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          width: '100%',
-        }}>
-        <Button
-          icon="star"
-          mode="contained"
-          style={{width: Dimensions.get('screen').width / 2.2}}
-          onPress={() => {
-            navigation.navigate('favorite', {});
-          }}>
-          Favorites
-        </Button>
-        <Button
-          icon="format-list-bulleted"
-          mode="contained"
-          style={{width: Dimensions.get('screen').width / 2.2}}
-          onPress={() => {
-            navigation.navigate('watchlist', {});
-          }}>
-          Watchlist
-        </Button>
-      </View>
       <Text
-        style={{paddingStart: 20, paddingTop: 20, paddingBottom: 10}}
+        style={{paddingStart: 20, paddingTop: 10, paddingBottom: 10}}
         variant="headlineLarge">
-        Movies
+        Favorites
       </Text>
       <FlatList
         data={listMovies}

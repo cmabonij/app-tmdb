@@ -7,7 +7,7 @@ import {name as appName} from './app.json';
 import store from './store';
 import App from './App';
 
-const theme = {
+export const theme = {
   colors: {
     primary: 'rgb(13, 37, 63)',
     onPrimary: 'rgb(255, 255, 255)',
