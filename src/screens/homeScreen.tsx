@@ -48,8 +48,11 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
+        showToast(
+          'error',
+          'Something wrong to do the request of guest session!',
+        );
       });
-    showToast('error', 'Something wrong to do the request of guest session!');
   };
 
   const getLisMovies = async () => {
