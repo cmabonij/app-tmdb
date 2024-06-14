@@ -14,7 +14,6 @@ import api from '../util/api';
 import {FormatDate} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
 import {updateSession} from '../../store/actions/userActions';
-import {theme} from '../..';
 
 export const HomeScreen = ({navigation}: DefaultScreenProps) => {
   const [listMovies, setListMovies] = useState<any[]>([]);

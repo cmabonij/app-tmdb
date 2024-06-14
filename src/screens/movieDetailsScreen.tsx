@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ActivityIndicator, Button, Icon, Text} from 'react-native-paper';
 
 import api from '../util/api';
-import {FormatDate, accountId} from '../util/utils';
+import {FormatDate, accountId, showToast} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
 
 export const MovieDetailsScreen = ({navigation}: DefaultScreenProps) => {
@@ -56,16 +56,19 @@ export const MovieDetailsScreen = ({navigation}: DefaultScreenProps) => {
       .post(`account/${accountId}/favorite`, body)
       .then(response => {
         console.log(response.data);
-        setFavoriteButton(
-          favoriteButton === 'Add Favorite'
-            ? 'Remove Favorite'
-            : 'Add Favorite',
-        );
         setLoading(false);
+        if (favoriteButton === 'Add Favorite') {
+          setFavoriteButton('Remove Favorite');
+          showToast('success', 'The movie was added to Favorite!');
+        } else {
+          setFavoriteButton('Add Favorite');
+          showToast('success', 'The movie was removed to Favorite!');
+        }
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
         setLoading(false);
+        showToast('error', 'Something wrong to add to favorite!');
       });
   };
 
@@ -80,16 +83,19 @@ export const MovieDetailsScreen = ({navigation}: DefaultScreenProps) => {
       .post(`account/${accountId}/watchlist`, body)
       .then(response => {
         console.log(response.data);
-        setWatchlistButton(
-          watchlistButton === 'Add Watchlist'
-            ? 'Remove Watchlist'
-            : 'Add Watchlist',
-        );
         setLoading(false);
+        if (watchlistButton === 'Add Watchlist') {
+          setWatchlistButton('Remove Watchlist');
+          showToast('success', 'The movie was added to Watchlist!');
+        } else {
+          setWatchlistButton('Add Watchlist');
+          showToast('success', 'The movie was removed to Watchlist!');
+        }
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
         setLoading(false);
+        showToast('error', 'Something wrong to add to Watchlist!');
       });
   };
 

@@ -13,8 +13,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from './src/screens/homeScreen';
 import {MovieDetailsScreen} from './src/screens/movieDetailsScreen';
 import api from './src/util/api';
-import { FavoriteScreen } from './src/screens/favoriteScreen';
-import { WatchlistScreen } from './src/screens/watchlistScreen';
+import {FavoriteScreen} from './src/screens/favoriteScreen';
+import {WatchlistScreen} from './src/screens/watchlistScreen';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -135,6 +136,7 @@ export default function App() {
           </View>
         </Card.Content>
       )}
+      <Toast />
     </View>
   );
 }
