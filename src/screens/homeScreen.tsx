@@ -1,7 +1,15 @@
 import {useDispatch} from 'react-redux';
 import {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ActivityIndicator, Button, Card, Icon, Text} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  Icon,
+  IconButton,
+  Text,
+  TextInput,
+} from 'react-native-paper';
 import {
   Dimensions,
   FlatList,
@@ -18,12 +26,19 @@ import {updateSession} from '../../store/actions/userActions';
 export const HomeScreen = ({navigation}: DefaultScreenProps) => {
   const [listMovies, setListMovies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
     getAIdGuest();
     getLisMovies();
   }, []);
+
+  useEffect(() => {
+    if (search === '') {
+      getLisMovies();
+    }
+  }, [search]);
 
   const getAIdGuest = async () => {
     await api
@@ -41,6 +56,20 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
       .get('discover/movie')
       .then(response => {
         setListMovies(response.data.results);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+        setLoading(false);
+      });
+  };
+
+  const searchMovie = async () => {
+    await api
+      .get(`search/movie?query=${search}`)
+      .then(response => {
+        setListMovies(response.data.results);
+        console.log(response.data);
         setLoading(false);
       })
       .catch(error => {
@@ -145,6 +174,31 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
         variant="headlineLarge">
         Movies
       </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          width: '97%',
+          alignItems: 'center',
+          paddingStart: 15,
+          paddingBottom: 10,
+        }}>
+        {/* <Icon source="magnify" size={30} /> */}
+
+        <TextInput
+          style={{width: '85%'}}
+          mode="outlined"
+          label="Search"
+          value={search}
+          onChangeText={search => setSearch(search)}
+        />
+        <IconButton
+          style={{width: '10%'}}
+          icon="magnify"
+          onPress={() => {
+            searchMovie();
+          }}></IconButton>
+      </View>
       <FlatList
         data={listMovies}
         renderItem={renderItem}

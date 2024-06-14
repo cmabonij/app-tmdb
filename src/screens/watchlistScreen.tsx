@@ -12,7 +12,7 @@ import {
 import api from '../util/api';
 import {FormatDate, accountId} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 export const WatchlistScreen = ({navigation}: DefaultScreenProps) => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ export const WatchlistScreen = ({navigation}: DefaultScreenProps) => {
 
   const getLisMovies = async () => {
     await api
-    .get(`account/${accountId}/watchlist/movies`)
+      .get(`account/${accountId}/watchlist/movies`)
       .then(response => {
         setListMovies(response.data.results);
         setLoading(false);
@@ -58,7 +58,7 @@ export const WatchlistScreen = ({navigation}: DefaultScreenProps) => {
             underlayColor="#DDDDDD"
             key={item.key}
             onPress={() => {
-            //TODO: make return refresh screen, here and fav.
+              //TODO: make return refresh screen, here and fav.
               navigation.navigate('movieDetails', {item});
             }}>
             <View
