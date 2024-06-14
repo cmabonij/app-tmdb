@@ -1,13 +1,13 @@
-import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {Dimensions, Image, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ActivityIndicator, Button, Icon, Text} from 'react-native-paper';
 
 import api from '../util/api';
-import {FormatDate, accountId, showToast} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
+import {FormatDate, accountId, showToast} from '../util/utils';
 
 export const MovieDetailsScreen = ({navigation}: DefaultScreenProps) => {
   const route = useRoute();

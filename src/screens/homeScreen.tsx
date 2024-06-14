@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 import api from '../util/api';
-import {FormatDate} from '../util/utils';
+import {FormatDate, showToast} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
 import {updateSession} from '../../store/actions/userActions';
 
@@ -49,6 +49,7 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
+    showToast('error', 'Something wrong to do the request of guest session!');
   };
 
   const getLisMovies = async () => {
@@ -61,6 +62,7 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
       .catch(error => {
         console.error('Error fetching data: ', error);
         setLoading(false);
+        showToast('error', 'Something wrong to do the request movies!');
       });
   };
 
@@ -75,6 +77,7 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
       .catch(error => {
         console.error('Error fetching data: ', error);
         setLoading(false);
+        showToast('error', 'Something wrong to do the request query!');
       });
   };
 

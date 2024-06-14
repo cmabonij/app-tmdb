@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import api from '../util/api';
-import {FormatDate, accountId} from '../util/utils';
+import {FormatDate, accountId, showToast} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -38,6 +38,7 @@ export const WatchlistScreen = ({navigation}: DefaultScreenProps) => {
       .catch(error => {
         console.error('Error fetching data: ', error);
         setLoading(false);
+        showToast('error', 'Something wrong to do the request!');
       });
   };
 
