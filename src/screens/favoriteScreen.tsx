@@ -12,6 +12,7 @@ import {
 import api from '../util/api';
 import {FormatDate, accountId} from '../util/utils';
 import {DefaultScreenProps} from '../routes/defaultProps';
+import {useIsFocused} from '@react-navigation/native';
 
 export const FavoriteScreen = ({navigation}: DefaultScreenProps) => {
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,12 @@ export const FavoriteScreen = ({navigation}: DefaultScreenProps) => {
   useEffect(() => {
     getLisMovies();
   }, []);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getLisMovies();
+  }, [isFocused]);
 
   const getLisMovies = async () => {
     await api
