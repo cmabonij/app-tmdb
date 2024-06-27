@@ -86,7 +86,7 @@ export const HomeScreen = ({navigation}: DefaultScreenProps) => {
 
   const renderItem = ({item}: any) => {
     const average = Math.trunc(item.vote_average * 100) / 100;
-    const dateRelease = FormatDate(item.release_date);
+    const dateRelease = item.release_date && FormatDate(item.release_date);
     return (
       <View
         style={{
